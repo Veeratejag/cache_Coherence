@@ -6,8 +6,29 @@ using namespace std;
     L2 read/write - 20ns
     DRAM read/write - 200ns
 */
+/*
+    use unordered map with combination of deque or list. to store data,easy to search and delete.
+*/
+struct DIMM{
+    int data[1024*1024*1024];
+    void read(int data);
+    void write(int data);
+    void create(int data);
+};
+struct L1_cache{
+    int data[setbits][assoc][blocksize];
+    void read( int data);
+    void write( int data);
+    void fetch( int data);
+};
+struct L2_cache{
+    int data[setbits][assoc][blocksize];
+    void read( int data);
+    void write( int data);
+    void fetch( int data);
+};
 
-int BlockSize,L1Size,L1Assoc,L2Size,L2Assoc; // everything in bytes and powers of 2
+int BlockSize,L1Size,L1Assoc,L2Size,L2Assoc;   /* everything in bytes and powers of 2*/
 
 int L1[L1Size/(BlockSize*L1Assoc)][L1Assoc][BlockSize],
     L2[L2Size/(BlockSize*L2Assoc)][L2Assoc][BlockSize],
@@ -22,35 +43,35 @@ void cache(){
     string req;
     while(cin>>req>>address){
         time+=1;
-        if (req=="rd") L1_read+=1;
-        if (req=="wr") L1_write+=1;
+        if (req=="r") L1_read+=1;
+        if (req=="w") L1_write+=1;
         
         if address in L1{
             
             /*
-                reorder the L1 cache according to LRU principle
+                delete and reinsert it in the back or whichever u chopse to be recent
             */
         }else{
             time+=20;
-            if (req=="rd"){
+            if (req=="r"){
                 L2_read+=1;
                 L1_read_miss+=1
             }
-            if (req=="wr") {
+            if (req=="w") {
                 L2_write+=1;
                 L1_write_miss+=1;
             }
             if address in L2{
                /*
-                    reorder L2 cache according to LRU principle
+                    ? doubt:- reorder L2 cache according to LRU principle
                     bring the address and its neighbours to the L1 cache ,
                     if full delete addresses according to LRU principle
 
                */
             }else{
                 time+=200;
-                if (req=="rd") L2_read_miss+=1;
-                if (req=="wr") L2_write_miss+=1;
+                if (req=="r") L2_read_miss+=1;
+                if (req=="w") L2_write_miss+=1;
                 /*
                     bring the address and its neighbours to the L2 cache ,
                     if full delete addresses according to LRU principle
