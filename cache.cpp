@@ -30,9 +30,9 @@ struct L2_cache{
 
 int BlockSize,L1Size,L1Assoc,L2Size,L2Assoc;   /* everything in bytes and powers of 2*/
 
-int L1[L1Size/(BlockSize*L1Assoc)][L1Assoc][BlockSize],
-    L2[L2Size/(BlockSize*L2Assoc)][L2Assoc][BlockSize],
-    DRAM[1024*1024*1024];
+
+    
+
 int L1_read,L1_read_miss,L1_write,L1_write_miss;
 int L2_read,L2_read_miss,L2_write,L2_write_miss;
 
